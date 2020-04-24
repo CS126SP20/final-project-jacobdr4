@@ -2,7 +2,7 @@
 
 #ifndef FINALPROJECT_APPS_MYAPP_H_
 #define FINALPROJECT_APPS_MYAPP_H_
-#include <cocButton.h>
+#include <UI.h>
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "cinder/Utilities.h"
@@ -10,21 +10,18 @@
 #include <vector>
 
 using std::vector;
+using namespace reza::ui;
+using namespace ci;
+using namespace ci::app;
+using namespace std;
+
 namespace myapp {
 
 class MyApp : public cinder::app::App {
  private:
   const int kNumButtons = 4;
   vector<int> button_x;
-
-  coc::ciButton line_button;
-  coc::ciButton fill_button;
-  coc::ciButton erase_button;
-  coc::ciButton draw_button;
-
-
-  void SetButtonCoordinates();
-  void SetUpButtons();
+  SuperCanvasRef mUi;
 
 
  public:
@@ -33,6 +30,8 @@ class MyApp : public cinder::app::App {
   void update() override;
   void draw() override;
   void keyDown(cinder::app::KeyEvent) override;
+  void cleanup() override;
+  fs::path getSaveLoadPath();
 };
 
 }  // namespace myapp
