@@ -16,11 +16,17 @@ void MyApp::setup() {
   tool = Tool::scribble;
   mUi = SuperCanvas::create("Pixel Paint");
   CreateButtons();
+  CreateColorSlider();
   mUi->autoSizeToFitSubviews();
   mUi->load(getSaveLoadPath());
 }
 
-void MyApp::update() {}
+void MyApp::update() {
+  color_slider->setColorOutline(ColorA(red, green, blue) );
+  color_slider->setColorOutlineHighlight(ColorA(red, green, blue));
+  color_slider->setColorFillHighlight(ColorA(red, green, blue));
+  color_slider->setDrawBoundsOutline(false);
+}
 
 void MyApp::draw() {
   if (tool == Tool::line) {
@@ -57,15 +63,28 @@ void MyApp::CreateButtons() {
   mUi->addSubViewDown(fill_btn, Alignment::LEFT);
 }
 
+void MyApp::CreateColorSlider() {
+  red = 0.0;
+  blue = 0.0;
+  green = 0.0;
+  vector<MultiSlider::Data> slider_data;
+  slider_data.push_back(MultiSlider::Data( "RED", &red ,0.0, 1.0 ));
+  slider_data.push_back(MultiSlider::Data( "GREEN", &blue, 0.0, 1.0));
+  slider_data.push_back(MultiSlider::Data( "BLUE", &green, 0.0, 1.0 ));
+
+   color_slider = MultiSlider::create("COLOR", slider_data, MultiSlider::Format().crossFader());
+   mUi->addSubViewDown(color_slider, Alignment::LEFT);
+}
+
 void MyApp::DrawLine() {
   vec2 start_pos = {start_mouseX, start_mouseY};
   vec2 end_pos = {current_mouseX, current_mouseY};
-  cinder::gl::color(Color(1, 1, 1));
+  cinder::gl::color(Color(red, green, blue));
   cinder::gl::drawLine(start_pos, end_pos);
 }
 
 void MyApp::DrawScribble() {
-  cinder::gl::color(Color(1, 1, 1));
+  cinder::gl::color(Color(red, green, blue));
   cinder::gl::draw(mShape);
 }
 
@@ -97,5 +116,5 @@ void MyApp::mouseDrag(MouseEvent event) {
 
 void MyApp::mouseMove(MouseEvent event) {}
 
-}  // namespace myapp
-   // namespace myapp
+}
+// namespace myapp
