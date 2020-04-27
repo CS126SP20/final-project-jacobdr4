@@ -3,12 +3,15 @@
 #ifndef FINALPROJECT_APPS_MYAPP_H_
 #define FINALPROJECT_APPS_MYAPP_H_
 #include <UI.h>
-#include "cinder/app/RendererGl.h"
-#include "cinder/gl/gl.h"
-#include "cinder/Utilities.h"
 #include <cinder/app/App.h>
+
 #include <vector>
 
+#include "../include/paint_utils.h"
+#include "cinder/Utilities.h"
+#include "cinder/app/RendererGl.h"
+#include "cinder/gl/gl.h"
+#include "cinder/shape2d.h"
 
 using std::vector;
 using cinder::app::MouseEvent;
@@ -30,6 +33,8 @@ class MyApp : public cinder::app::App {
   int start_mouseY;
   int current_mouseX;
   int current_mouseY;
+  Tool tool;
+  Shape2d mShape;
 
 
   /**
@@ -37,6 +42,7 @@ class MyApp : public cinder::app::App {
    */
   void CreateButtons();
   void DrawLine();
+  void DrawScribble();
 
  public:
   MyApp();
