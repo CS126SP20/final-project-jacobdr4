@@ -19,10 +19,18 @@ namespace myapp {
 
 class MyApp : public cinder::app::App {
  private:
-  const int kNumButtons = 4;
-  vector<int> button_x;
   SuperCanvasRef mUi;
+  ButtonRef line_btn;
+  ButtonRef erase_btn;
+  ButtonRef draw_btn;
+  ButtonRef fill_btn;
 
+  /**
+   * Creates the buttons and adds them to the canvas
+   */
+  void CreateButtons();
+
+  void OnButtonClick(bool pressed) const;
 
  public:
   MyApp();
