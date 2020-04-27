@@ -6,6 +6,9 @@
 namespace myapp {
 
 using cinder::app::KeyEvent;
+using cinder::app::MouseEvent;
+using cinder::app::Event;
+
 
 MyApp::MyApp() {
 
@@ -19,9 +22,9 @@ void MyApp::setup() {
 
   //std::cout << mUi->getX();
   //std::cout << mUi->getY();
-  std::cout << mUi->getWidth();
-  std::cout << "\n";
-  std::cout << mUi->getHeight();
+  //std::cout << mUi->getWidth();
+  //std::cout << "\n";
+  //std::cout << mUi->getHeight();
 }
 
 void MyApp::update() {
@@ -29,7 +32,8 @@ void MyApp::update() {
 }
 
 void MyApp::draw() {
-
+  cinder::gl::clear();
+  DrawLine();
 }
 
 void MyApp::keyDown(KeyEvent event) {}
@@ -61,8 +65,29 @@ void MyApp::CreateButtons() {
     mUi->addSubViewDown(fill_btn, Alignment::LEFT);
 }
 
-void MyApp::OnButtonClick(bool pressed) const{
-  std::cout << pressed;
+void MyApp::DrawLine() {
+  vec2 start_pos = {start_mouseX, start_mouseY};
+  vec2 end_pos = {current_mouseX, current_mouseY};
+  cinder::gl::color(Color(1, 1, 1));
+  cinder::gl::drawLine(start_pos, end_pos);
+}
+
+void MyApp::mouseDown(MouseEvent event) {
+  start_mouseX = event.getX();
+  start_mouseY = event.getY();
+}
+
+void MyApp::mouseUp(MouseEvent event) {
+
+}
+
+void MyApp::mouseDrag(MouseEvent event) {
+  current_mouseX = event.getX();
+  current_mouseY = event.getY();
+}
+
+void MyApp::mouseMove(MouseEvent event) {
+
 }
 
 }

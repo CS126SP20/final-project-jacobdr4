@@ -9,7 +9,9 @@
 #include <cinder/app/App.h>
 #include <vector>
 
+
 using std::vector;
+using cinder::app::MouseEvent;
 using namespace reza::ui;
 using namespace ci;
 using namespace ci::app;
@@ -24,13 +26,17 @@ class MyApp : public cinder::app::App {
   ButtonRef erase_btn;
   ButtonRef draw_btn;
   ButtonRef fill_btn;
+  int start_mouseX;
+  int start_mouseY;
+  int current_mouseX;
+  int current_mouseY;
+
 
   /**
    * Creates the buttons and adds them to the canvas
    */
   void CreateButtons();
-
-  void OnButtonClick(bool pressed) const;
+  void DrawLine();
 
  public:
   MyApp();
@@ -40,6 +46,11 @@ class MyApp : public cinder::app::App {
   void keyDown(cinder::app::KeyEvent) override;
   void cleanup() override;
   fs::path getSaveLoadPath();
+
+  void mouseDown(MouseEvent event) override;
+  void mouseUp(MouseEvent event) override ;
+  void mouseMove(MouseEvent event) override;
+  void mouseDrag(MouseEvent event) override;
 };
 
 }  // namespace myapp
