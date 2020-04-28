@@ -26,10 +26,7 @@ class MyApp : public cinder::app::App {
  private:
   SuperCanvasRef mUi;
 
-  ButtonRef line_btn;
-  ButtonRef erase_btn;
-  ButtonRef draw_btn;
-  ButtonRef fill_btn;
+  RadioRef tool_radio;
 
   int start_mouseX;
   int start_mouseY;
@@ -64,6 +61,11 @@ class MyApp : public cinder::app::App {
    * Creates the color slider so the user can select a color to draw with
    */
   void CreateColorSlider();
+
+  /**
+   * Functionality to draw a rectangle on the screen
+   */
+  void DrawRect();
 
  public:
   MyApp();

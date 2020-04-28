@@ -9,6 +9,7 @@ enum class Tool {
   none,
   line,
   scribble,
+  rect,
 };
 
 class PaintUtils {

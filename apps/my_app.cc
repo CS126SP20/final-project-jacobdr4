@@ -13,7 +13,7 @@ using cinder::app::MouseEvent;
 MyApp::MyApp() {}
 
 void MyApp::setup() {
-  tool = Tool::scribble;
+  tool = Tool::rect;
   mUi = SuperCanvas::create("Pixel Paint");
   CreateButtons();
   CreateColorSlider();
@@ -37,6 +37,11 @@ void MyApp::draw() {
   if (tool == Tool::scribble) {
     DrawScribble();
   }
+
+  if (tool == Tool::rect) {
+    cinder::gl::clear();
+    DrawRect();
+  }
 }
 
 void MyApp::keyDown(KeyEvent event) {}
@@ -50,17 +55,9 @@ fs::path MyApp::getSaveLoadPath() {
 }
 
 void MyApp::CreateButtons() {
-  line_btn = Button::create("Line", false);
-  mUi->addSubViewDown(line_btn, Alignment::LEFT);
-
-  erase_btn = Button::create("Erase", false);
-  mUi->addSubViewDown(erase_btn, Alignment::LEFT);
-
-  draw_btn = Button::create("Draw", false);
-  mUi->addSubViewDown(draw_btn, Alignment::LEFT);
-
-  fill_btn = Button::create("Fill", false);
-  mUi->addSubViewDown(fill_btn, Alignment::LEFT);
+  vector<std::string> tools = {"Line", "Erase", "Draw", "Fill"};
+  tool_radio = Radio::create("Tools", tools);
+  mUi->addSubViewDown(tool_radio, Alignment::LEFT);
 }
 
 void MyApp::CreateColorSlider() {
@@ -72,7 +69,7 @@ void MyApp::CreateColorSlider() {
   slider_data.push_back(MultiSlider::Data( "GREEN", &blue, 0.0, 1.0));
   slider_data.push_back(MultiSlider::Data( "BLUE", &green, 0.0, 1.0 ));
 
-   color_slider = MultiSlider::create("COLOR", slider_data, MultiSlider::Format().crossFader());
+   color_slider = MultiSlider::create("Paint Color", slider_data, MultiSlider::Format().crossFader());
    mUi->addSubViewDown(color_slider, Alignment::LEFT);
 }
 
@@ -88,8 +85,13 @@ void MyApp::DrawScribble() {
   cinder::gl::draw(mShape);
 }
 
+void MyApp::DrawRect() {
+  cinder::gl::color(Color(red, green, blue));
+  cinder::gl::drawStrokedRect(Rectf(start_mouseX, start_mouseY, current_mouseX, current_mouseY));
+}
+
 void MyApp::mouseDown(MouseEvent event) {
-  if (tool == Tool::line) {
+  if (tool == Tool::line || tool == Tool::rect) {
     start_mouseX = event.getX();
     start_mouseY = event.getY();
     current_mouseX = event.getX();
@@ -104,7 +106,7 @@ void MyApp::mouseDown(MouseEvent event) {
 void MyApp::mouseUp(MouseEvent event) {}
 
 void MyApp::mouseDrag(MouseEvent event) {
-  if (tool == Tool::line) {
+  if (tool == Tool::line || tool == Tool::rect) {
     current_mouseX = event.getX();
     current_mouseY = event.getY();
   }
