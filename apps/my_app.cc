@@ -4,8 +4,6 @@
 
 #include <cinder/app/App.h>
 
-#include <iostream>
-
 namespace myapp {
 
 using cinder::app::Event;
@@ -33,23 +31,8 @@ void MyApp::update() {
 }
 
 void MyApp::draw() {
-  if (tool == Tool::line) {
-    cinder::gl::clear();
-    DrawLine();
-  }
-
-  if (tool == Tool::scribble) {
-    DrawScribble();
-  }
-
-  if (tool == Tool::rect) {
-    cinder::gl::clear();
-    DrawRect();
-  }
-
   if (tool == Tool::clear) {
     Clear();
-    tool = Tool::scribble;
   }
 }
 
@@ -104,17 +87,18 @@ void MyApp::DrawRect() {
 
 void MyApp::Clear() {
   mShape.clear();
+  shapes.clear();
   cinder::gl::clear();
 }
 
 void MyApp::OnButtonPress(string name, bool value) {
-  if (name == "Line") {
+  if (name == "Line" && value) {
     tool = Tool::line;
-  } else if (name == "Rect") {
+  } else if (name == "Rect" && value) {
     tool = Tool::rect;
-  } else if (name == "Fill") {
+  } else if (name == "Fill" && value) {
     tool = Tool::fill;
-  } else if (name == "Scribble") {
+  } else if (name == "Scribble" && value) {
     tool = Tool::scribble;
   } else {
     tool = Tool::clear;
@@ -122,28 +106,27 @@ void MyApp::OnButtonPress(string name, bool value) {
 }
 
 void MyApp::mouseDown(MouseEvent event) {
-  if (tool == Tool::line || tool == Tool::rect) {
+  if (tool == Tool::line) {
     start_mouseX = event.getX();
     start_mouseY = event.getY();
-    current_mouseX = event.getX();
-    current_mouseY = event.getY();
-  }
 
-  if (tool == Tool::scribble) {
-    mShape.moveTo(event.getPos());
+    shapes.push_back(Shape(Color(red, green, blue),ShapeType::line, start_mouseX, start_mouseY));
   }
 }
 
-void MyApp::mouseUp(MouseEvent event) {}
+void MyApp::mouseUp(MouseEvent event) {
+
+}
 
 void MyApp::mouseDrag(MouseEvent event) {
-  if (tool == Tool::line || tool == Tool::rect) {
+  if (tool == Tool::line) {
     current_mouseX = event.getX();
     current_mouseY = event.getY();
-  }
+    shapes[shapes.size() - 1].Update(current_mouseX, current_mouseY);
 
-  if (tool == Tool::scribble) {
-    mShape.lineTo(event.getPos());
+    for (Shape s: shapes) {
+      s.Display();
+    }
   }
 }
 

@@ -5,13 +5,14 @@
 #include <UI.h>
 #include <cinder/app/App.h>
 
+#include <iostream>
 #include <vector>
 
 #include "cinder/Utilities.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "cinder/shape2d.h"
-#include <iostream>
+#include "shape.h"
 
 using cinder::app::MouseEvent;
 using std::vector;
@@ -47,6 +48,7 @@ class MyApp : public cinder::app::App {
   float blue;
 
   Shape2d mShape;
+  vector<Shape> shapes;
 
   static Tool tool;
 
