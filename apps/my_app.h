@@ -7,18 +7,26 @@
 
 #include <vector>
 
-#include "../include/paint_utils.h"
 #include "cinder/Utilities.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "cinder/shape2d.h"
+#include <iostream>
 
-using std::vector;
 using cinder::app::MouseEvent;
+using std::vector;
 using namespace reza::ui;
 using namespace ci;
 using namespace ci::app;
 using namespace std;
+
+enum class Tool {
+  line,
+  scribble,
+  rect,
+  fill,
+  clear,
+};
 
 namespace myapp {
 
@@ -38,9 +46,9 @@ class MyApp : public cinder::app::App {
   float green;
   float blue;
 
-  Tool tool;
   Shape2d mShape;
 
+  static Tool tool;
 
   /**
    * Creates the buttons and adds them to the canvas
@@ -67,6 +75,16 @@ class MyApp : public cinder::app::App {
    */
   void DrawRect();
 
+  /**
+   * Sets the tool variable to the proper tool based on the radio selection
+   * @param name The name of the tool
+   * @param value True is radio button with the above name is selected, false if otherwise
+   */
+  static void OnButtonPress(string name, bool value);
+
+  void Clear();
+
+
  public:
   MyApp();
   void setup() override;
@@ -77,7 +95,7 @@ class MyApp : public cinder::app::App {
   fs::path getSaveLoadPath();
 
   void mouseDown(MouseEvent event) override;
-  void mouseUp(MouseEvent event) override ;
+  void mouseUp(MouseEvent event) override;
   void mouseMove(MouseEvent event) override;
   void mouseDrag(MouseEvent event) override;
 };
