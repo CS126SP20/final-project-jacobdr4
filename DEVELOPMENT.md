@@ -38,4 +38,23 @@ button is pressed;
 2. Deleted Board_Utils, moved enum class to my_app.h
 3. Added Clear() method, which clears all drawings on the screen
 
+#4/29/20
+1. Created the Shape class, which represents a shape that the user has drawn on the 
+screen. It allows the user to switch tools and draw multiple shapes on the screen
+without anything being deleted.
+2. Refactored code in my_app.cc to use the Shape class. 
+   * Created a vector of shapes, in my_app.h to store all of the shapes
+   * Deleted old methods that simpily drew one shape on the screen at a time
+   * Added shape to the vector whenever mouseDown() is called
+   * Added shape.Update() to mouseDrag() to update the currect shape that is
+   being drawn
+   * Used a for-each loop to continuously display every shape while drawing
+   in mouseDrag()
+3. Now, every tool works except Fill.
+
+#4/30/20
+1. Fill tool now works
+2. Added SetBackgroundColor() method and background_color instance variable, 
+which changes/stores the color of the background when the fill tool is selected
+
 ---

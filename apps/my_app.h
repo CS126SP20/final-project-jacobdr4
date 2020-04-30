@@ -47,6 +47,8 @@ class MyApp : public cinder::app::App {
   float green;
   float blue;
 
+  Color background_color;
+
   Shape2d mShape;
   vector<Shape> shapes;
 
@@ -58,24 +60,14 @@ class MyApp : public cinder::app::App {
   void CreateButtons();
 
   /**
-   * Funcitonality to draw a straight line on the screen
-   */
-  void DrawLine();
-
-  /**
-   * Functionality to scribble on the screen
-   */
-  void DrawScribble();
-
-  /**
    * Creates the color slider so the user can select a color to draw with
    */
   void CreateColorSlider();
 
   /**
-   * Functionality to draw a rectangle on the screen
+   * The display settings for the color slider
    */
-  void DrawRect();
+  void ColorSliderSettings();
 
   /**
    * Sets the tool variable to the proper tool based on the radio selection
@@ -84,8 +76,15 @@ class MyApp : public cinder::app::App {
    */
   static void OnButtonPress(string name, bool value);
 
+  /**
+   * Clears the drawing board
+   */
   void Clear();
 
+  /**
+   * Sets the color of the background to the color on the sliders
+   */
+  void SetBackgroundColor();
 
  public:
   MyApp();

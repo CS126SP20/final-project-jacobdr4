@@ -13,7 +13,10 @@ using namespace std;
 
 Tool MyApp::tool;
 
-MyApp::MyApp() { tool = Tool::line; }
+MyApp::MyApp() {
+  tool = Tool::line;
+  background_color = Color(0, 0, 0);
+}
 
 void MyApp::setup() {
   mUi = SuperCanvas::create("Pixel Paint");
@@ -23,16 +26,20 @@ void MyApp::setup() {
   mUi->load(getSaveLoadPath());
 }
 
-void MyApp::update() {
-  color_slider->setColorOutline(ColorA(red, green, blue));
-  color_slider->setColorOutlineHighlight(ColorA(red, green, blue));
-  color_slider->setColorFillHighlight(ColorA(red, green, blue));
-  color_slider->setDrawBoundsOutline(false);
-}
+void MyApp::update() { ColorSliderSettings(); }
 
 void MyApp::draw() {
   if (tool == Tool::clear) {
     Clear();
+  }
+
+  if (tool == Tool::fill) {
+    SetBackgroundColor();
+  }
+
+  cinder::gl::clear(background_color);
+  for (Shape s : shapes) {
+    s.Display();
   }
 }
 
@@ -45,6 +52,8 @@ fs::path MyApp::getSaveLoadPath() {
   path += "/" + mUi->getName() + ".json";
   return path;
 }
+
+void MyApp::SetBackgroundColor() { background_color = Color(red, green, blue); }
 
 void MyApp::CreateButtons() {
   vector<std::string> tools = {"Line", "Scribble", "Rect", "Fill", "Clear"};
@@ -59,30 +68,19 @@ void MyApp::CreateColorSlider() {
   green = 0.0;
   vector<MultiSlider::Data> slider_data;
   slider_data.push_back(MultiSlider::Data("RED", &red, 0.0, 1.0));
-  slider_data.push_back(MultiSlider::Data("GREEN", &blue, 0.0, 1.0));
-  slider_data.push_back(MultiSlider::Data("BLUE", &green, 0.0, 1.0));
+  slider_data.push_back(MultiSlider::Data("GREEN", &green, 0.0, 1.0));
+  slider_data.push_back(MultiSlider::Data("BLUE", &blue, 0.0, 1.0));
 
   color_slider = MultiSlider::create("Paint Color", slider_data,
                                      MultiSlider::Format().crossFader());
+  color_slider->setDrawBoundsOutline(false);
   mUi->addSubViewDown(color_slider, Alignment::LEFT);
 }
 
-void MyApp::DrawLine() {
-  vec2 start_pos = {start_mouseX, start_mouseY};
-  vec2 end_pos = {current_mouseX, current_mouseY};
-  cinder::gl::color(Color(red, green, blue));
-  cinder::gl::drawLine(start_pos, end_pos);
-}
-
-void MyApp::DrawScribble() {
-  cinder::gl::color(Color(red, green, blue));
-  cinder::gl::draw(mShape);
-}
-
-void MyApp::DrawRect() {
-  cinder::gl::color(Color(red, green, blue));
-  cinder::gl::drawStrokedRect(
-      Rectf(start_mouseX, start_mouseY, current_mouseX, current_mouseY));
+void MyApp::ColorSliderSettings() {
+  color_slider->setColorOutline(ColorA(red, green, blue));
+  color_slider->setColorOutlineHighlight(ColorA(red, green, blue));
+  color_slider->setColorFillHighlight(ColorA(red, green, blue));
 }
 
 void MyApp::Clear() {
@@ -106,27 +104,33 @@ void MyApp::OnButtonPress(string name, bool value) {
 }
 
 void MyApp::mouseDown(MouseEvent event) {
-  if (tool == Tool::line) {
-    start_mouseX = event.getX();
-    start_mouseY = event.getY();
+  start_mouseX = event.getX();
+  start_mouseY = event.getY();
 
-    shapes.push_back(Shape(Color(red, green, blue),ShapeType::line, start_mouseX, start_mouseY));
+  if (tool == Tool::line) {
+    shapes.push_back(Shape(Color(red, green, blue), ShapeType::line,
+                           start_mouseX, start_mouseY));
+  }
+
+  if (tool == Tool::rect) {
+    shapes.push_back(Shape(Color(red, green, blue), ShapeType::rect,
+                           start_mouseX, start_mouseY));
+  }
+
+  if (tool == Tool::scribble) {
+    shapes.push_back(Shape(Color(red, green, blue), ShapeType::scribble,
+                           start_mouseX, start_mouseY));
   }
 }
 
-void MyApp::mouseUp(MouseEvent event) {
-
-}
+void MyApp::mouseUp(MouseEvent event) {}
 
 void MyApp::mouseDrag(MouseEvent event) {
-  if (tool == Tool::line) {
-    current_mouseX = event.getX();
-    current_mouseY = event.getY();
-    shapes[shapes.size() - 1].Update(current_mouseX, current_mouseY);
+  current_mouseX = event.getX();
+  current_mouseY = event.getY();
 
-    for (Shape s: shapes) {
-      s.Display();
-    }
+  if (tool != Tool::fill && tool != Tool::clear) {
+    shapes[shapes.size() - 1].Update(current_mouseX, current_mouseY);
   }
 }
 

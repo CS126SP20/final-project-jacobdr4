@@ -32,7 +32,7 @@ class Shape {
   int start_y;
   int end_x;
   int end_y;
-  Path2d path;
+  Shape2d scribble;
 };
 
 #endif  // FINALPROJECT_SHAPE_H
