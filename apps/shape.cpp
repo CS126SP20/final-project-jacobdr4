@@ -44,3 +44,18 @@ void Shape::Display() {
     cinder::gl::draw(scribble);
   }
 }
+
+vector<int> Shape::GetShapeCoordinates() {
+  vector<int> coords = {start_x, start_y, end_x, end_y};
+  return coords;
+}
+
+void Shape::UpdateWithoutClearing(const int& current_x, const int& current_y) {
+  end_x = current_x;
+  end_y = current_y;
+
+  if (shapetype == ShapeType::scribble) {
+    scribble.lineTo(end_x, end_y);
+  }
+}
+

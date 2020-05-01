@@ -58,3 +58,8 @@ without anything being deleted.
 which changes/stores the color of the background when the fill tool is selected
 
 ---
+#5/1/20
+1. Added unit testing for the Shape class
+2. Added two new methods in Shape for testing purposes. GetShapeCoordinates()
+and UpdateWithoutClearing().
+3. Wrote method documentation in shape.h
