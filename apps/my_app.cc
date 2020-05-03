@@ -14,19 +14,28 @@ using namespace std;
 Tool MyApp::tool;
 
 MyApp::MyApp() {
-  tool = Tool::line;
   background_color = Color(0, 0, 0);
 }
 
 void MyApp::setup() {
   mUi = SuperCanvas::create("Pixel Paint");
   CreateButtons();
+  tool = Tool::line;
+  tool_radio->activate("Line");
   CreateColorSlider();
   mUi->autoSizeToFitSubviews();
   mUi->load(getSaveLoadPath());
 }
 
-void MyApp::update() { ColorSliderSettings(); }
+void MyApp::update() {
+  ColorSliderSettings();
+
+  if (tool == Tool::save) {
+    SaveData();
+    tool = Tool::line;
+    tool_radio->activate("Line");
+  }
+}
 
 void MyApp::draw() {
   if (tool == Tool::clear) {
@@ -56,7 +65,7 @@ fs::path MyApp::getSaveLoadPath() {
 void MyApp::SetBackgroundColor() { background_color = Color(red, green, blue); }
 
 void MyApp::CreateButtons() {
-  vector<std::string> tools = {"Line", "Scribble", "Rect", "Fill", "Clear"};
+  vector<std::string> tools = {"Line", "Scribble", "Rect", "Fill", "Clear", "Save", "Load"};
   tool_radio = Radio::create("Tools", tools);
   tool_radio->setCallback(OnButtonPress);
   mUi->addSubViewDown(tool_radio, Alignment::LEFT);
@@ -98,8 +107,47 @@ void MyApp::OnButtonPress(string name, bool value) {
     tool = Tool::fill;
   } else if (name == "Scribble" && value) {
     tool = Tool::scribble;
-  } else {
+  } else if (name == "Clear" && value) {
     tool = Tool::clear;
+  } else if (name == "Save" && value) {
+    tool = Tool::save;
+  } else if (name == "Load" && value) {
+    tool = Tool::load;
+  }
+}
+
+void MyApp::SaveData() {
+ database db("shapesave.db");
+
+  try {
+    db <<
+       "create table if not exists shapes ("
+       "   _id integer primary key autoincrement not null,"
+       "   shapetype text,"
+       "   startx int,"
+       "   starty int,"
+       "   endx int,"
+       "   endy int,"
+       "   red real,"
+       "   green real,"
+       "   blue real"
+       ");";
+  } catch (std::exception e) {
+    std::cout << "Error creating leaderboard";
+  }
+
+  db << "DELETE FROM shapes";
+
+  for (Shape shape : shapes) {
+    db << u"insert into shapes (shapetype,startx,starty,endx,endy,red,green,blue) values (?,?,?,?,?,?,?,?);" // utf16 query string
+       << shape.GetShapeType()
+       << shape.GetStartX()
+       << shape.GetStartY()
+       << shape.GetEndX()
+       << shape.GetEndY()
+       << shape.GetColor().r
+       << shape.GetColor().g
+       << shape.GetColor().b;
   }
 }
 
@@ -123,7 +171,9 @@ void MyApp::mouseDown(MouseEvent event) {
   }
 }
 
-void MyApp::mouseUp(MouseEvent event) {}
+void MyApp::mouseUp(MouseEvent event) {
+
+}
 
 void MyApp::mouseDrag(MouseEvent event) {
   current_mouseX = event.getX();

@@ -1,0 +1,68 @@
+{
+   "ID" : -1,
+   "MINIFIED" : false,
+   "NAME" : "Pixel Paint",
+   "SUBVIEWS" : [
+      {
+         "ACTIVE" : "Line",
+         "ID" : 1,
+         "NAME" : "Tools",
+         "SUBVIEWS" : [
+            {
+               "ID" : 0,
+               "NAME" : "Line",
+               "TYPE" : "Toggle",
+               "VALUE" : true
+            },
+            {
+               "ID" : 1,
+               "NAME" : "Scribble",
+               "TYPE" : "Toggle",
+               "VALUE" : false
+            },
+            {
+               "ID" : 2,
+               "NAME" : "Rect",
+               "TYPE" : "Toggle",
+               "VALUE" : false
+            },
+            {
+               "ID" : 3,
+               "NAME" : "Fill",
+               "TYPE" : "Toggle",
+               "VALUE" : false
+            },
+            {
+               "ID" : 4,
+               "NAME" : "Clear",
+               "TYPE" : "Toggle",
+               "VALUE" : false
+            },
+            {
+               "ID" : 5,
+               "NAME" : "Save",
+               "TYPE" : "Toggle",
+               "VALUE" : false
+            },
+            {
+               "ID" : 6,
+               "NAME" : "Load",
+               "TYPE" : "Toggle",
+               "VALUE" : false
+            }
+         ],
+         "TYPE" : "Radio"
+      },
+      {
+         "BLUE" : 0,
+         "GREEN" : 0.36702099999999999,
+         "ID" : 2,
+         "NAME" : "Paint Color",
+         "RED" : 0.090425500000000006,
+         "TYPE" : "MultiSlider"
+      }
+   ],
+   "TYPE" : "SuperCanvas",
+   "XPOS" : 0,
+   "YPOS" : 0
+}

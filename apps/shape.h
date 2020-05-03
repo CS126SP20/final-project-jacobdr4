@@ -20,6 +20,7 @@ enum class ShapeType {
 
 using namespace cinder;
 using std::vector;
+using std::string;
 
 class Shape {
  public:
@@ -38,17 +39,48 @@ class Shape {
   void Display();
 
   /**
-   * FOR TESTING ONLY. Returns a vector of the start and end coordinates
-   * @return A vector of the start and end coordinates
-   */
-  vector<int> GetShapeCoordinates();
-
-  /**
    * FOR TESTING ONLY. Updates the shape coordinates, but does not call cinder::gl::clear
    * @param current_x the new X coordinate
    * @param current_y the new Y coordinate
    */
   void UpdateWithoutClearing(const int& current_x, const int& current_y);
+
+  /**
+   * Get the color of the shape
+   * @return The color of the shape
+   */
+  Color GetColor();
+
+  /**
+   * Get the starting x coordinate
+   * @return int, the starting x coordinate
+   */
+  int GetStartX();
+
+  /**
+ * Get the ending x coordinate
+ * @return int, the ending x coordinate
+ */
+  int GetEndX();
+
+  /**
+   * Get the starting y coordinate
+   * @return int, the starting y coordinate
+   */
+  int GetStartY();
+
+  /**
+   * Get the ending y coordinate
+   * @return int, the ending y coordinate
+   */
+  int GetEndY();
+
+  /**
+   * Gets the shapetype as a string
+   * @return the shapetype as a string
+   */
+  string GetShapeType();
+
 
  private:
   Color color;

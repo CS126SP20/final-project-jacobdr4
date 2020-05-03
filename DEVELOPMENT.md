@@ -14,7 +14,7 @@
 3. Added CreateButton() Class that displays the buttons 
 
 #4/26/20
-1. Created the paintcanvas class with methods
+1. Created the paintcanvas class with tool enums
 
 #4/27/20
 1. Added built in cinder methods for mouse control, including MouseDown(), MouseUp(), 
@@ -44,9 +44,9 @@ screen. It allows the user to switch tools and draw multiple shapes on the scree
 without anything being deleted.
 2. Refactored code in my_app.cc to use the Shape class. 
    * Created a vector of shapes, in my_app.h to store all of the shapes
-   * Deleted old methods that simpily drew one shape on the screen at a time
+   * Deleted old methods that simply drew one shape on the screen at a time
    * Added shape to the vector whenever mouseDown() is called
-   * Added shape.Update() to mouseDrag() to update the currect shape that is
+   * Added shape.Update() to mouseDrag() to update the current shape that is
    being drawn
    * Used a for-each loop to continuously display every shape while drawing
    in mouseDrag()
@@ -63,3 +63,10 @@ which changes/stores the color of the background when the fill tool is selected
 2. Added two new methods in Shape for testing purposes. GetShapeCoordinates()
 and UpdateWithoutClearing().
 3. Wrote method documentation in shape.h
+
+#5/2/20
+1. Implemented the sqlite-modern-cpp and sqlite3
+libraries
+2. Added save and load buttons to UI, added save and load tools to
+the tool enum
+3. Created the sqlite database where each shape will be saved to

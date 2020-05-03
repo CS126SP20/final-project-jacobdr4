@@ -36,18 +36,13 @@ void Shape::Display() {
     cinder::gl::drawLine(start_vec, end_vec);
   }
 
-  if(shapetype == ShapeType::rect) {
+  if (shapetype == ShapeType::rect) {
     cinder::gl::drawStrokedRect(Rectf(start_vec, end_vec));
   }
 
   if (shapetype == ShapeType::scribble) {
     cinder::gl::draw(scribble);
   }
-}
-
-vector<int> Shape::GetShapeCoordinates() {
-  vector<int> coords = {start_x, start_y, end_x, end_y};
-  return coords;
 }
 
 void Shape::UpdateWithoutClearing(const int& current_x, const int& current_y) {
@@ -59,3 +54,32 @@ void Shape::UpdateWithoutClearing(const int& current_x, const int& current_y) {
   }
 }
 
+Color Shape::GetColor() {
+  return color;
+}
+
+int Shape::GetStartX() {
+  return start_x;
+}
+
+int Shape::GetEndX() {
+  return end_x;
+}
+
+int Shape::GetStartY() {
+  return start_y;
+}
+
+int Shape::GetEndY() {
+  return end_y;
+}
+
+string Shape::GetShapeType() {
+  if (shapetype == ShapeType::line) {
+    return "line";
+  } else if (shapetype == ShapeType::rect) {
+    return "rect";
+  } else {
+    return "scribble";
+  }
+}

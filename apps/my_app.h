@@ -3,11 +3,9 @@
 #ifndef FINALPROJECT_APPS_MYAPP_H_
 #define FINALPROJECT_APPS_MYAPP_H_
 #include <UI.h>
-#include <cinder/app/App.h>
-
 #include <iostream>
-#include <vector>
-
+#include <sqlite_modern_cpp.h>
+#include <cinder/app/App.h>
 #include "cinder/Utilities.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
@@ -20,6 +18,7 @@ using namespace reza::ui;
 using namespace ci;
 using namespace ci::app;
 using namespace std;
+using namespace sqlite;
 
 enum class Tool {
   line,
@@ -27,6 +26,8 @@ enum class Tool {
   rect,
   fill,
   clear,
+  save,
+  load,
 };
 
 namespace myapp {
@@ -85,6 +86,9 @@ class MyApp : public cinder::app::App {
    * Sets the color of the background to the color on the sliders
    */
   void SetBackgroundColor();
+
+  void SaveData();
+  static void LoadData();
 
  public:
   MyApp();
