@@ -16,6 +16,7 @@ enum class ShapeType {
   line,
   scribble,
   rect,
+  ellipse,
 };
 
 using namespace cinder;
@@ -25,8 +26,6 @@ using std::vector;
 class Shape {
  public:
   Shape(Color c, ShapeType st, const int& x, const int& y);
-  Shape(string shapetype_string, int startx, int starty, int endx, int endy,
-        float red, float green, float blue);
 
   /**
    * Updates the coordinates of the shape. Used when drawing
@@ -48,11 +47,6 @@ class Shape {
    */
   void UpdateWithoutClearing(const int& current_x, const int& current_y);
 
-  /**
-   * Get the color of the shape
-   * @return The color of the shape
-   */
-  Color GetColor();
 
   /**
    * Get the starting x coordinate
@@ -77,12 +71,6 @@ class Shape {
    * @return int, the ending y coordinate
    */
   int GetEndY();
-
-  /**
-   * Gets the shapetype as a string
-   * @return the shapetype as a string
-   */
-  string GetShapeType();
 
  private:
   Color color;

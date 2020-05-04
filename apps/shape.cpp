@@ -3,33 +3,16 @@
 //
 
 #include "shape.h"
-Shape::Shape(Color c, ShapeType st, const int& x, const int& y) {
-  color = c;
-  shapetype = st;
-  start_x = x;
-  start_y = y;
-  end_x = x;
-  end_y = y;
+Shape::Shape(Color get_color, ShapeType get_shapetype, const int& startx, const int& starty) {
+  color = get_color;
+  shapetype = get_shapetype;
+  start_x = startx;
+  start_y = starty;
+  end_x = startx;
+  end_y = starty;
 
   if (shapetype == ShapeType::scribble) {
     scribble.moveTo(start_x, start_y);
-  }
-}
-
-Shape::Shape(string shapetype_string, int startx, int starty, int endx,
-             int endy, float red, float green, float blue) {
-  color = Color(red, green, blue);
-  start_x = startx;
-  start_y = starty;
-  end_x = endx;
-  end_y = endy;
-
-  if (shapetype_string == "line") {
-    shapetype = ShapeType::line;
-  } else if (shapetype_string == "rect") {
-    shapetype = ShapeType::rect;
-  } else {
-    shapetype = ShapeType::scribble;
   }
 }
 
@@ -57,6 +40,14 @@ void Shape::Display() {
     cinder::gl::drawStrokedRect(Rectf(start_vec, end_vec));
   }
 
+  if (shapetype == ShapeType::ellipse) {
+    int center_x = (end_x + start_x) / 2;
+    int center_y = (end_y + start_y) / 2;
+    int radius_x = (abs(center_x - end_x));
+    int radius_y = (abs(center_y - end_y));
+    cinder::gl::drawStrokedEllipse(vec2 (center_x, center_y), radius_x, radius_y);
+  }
+
   if (shapetype == ShapeType::scribble) {
     cinder::gl::draw(scribble);
   }
@@ -71,8 +62,6 @@ void Shape::UpdateWithoutClearing(const int& current_x, const int& current_y) {
   }
 }
 
-Color Shape::GetColor() { return color; }
-
 int Shape::GetStartX() { return start_x; }
 
 int Shape::GetEndX() { return end_x; }
@@ -80,13 +69,3 @@ int Shape::GetEndX() { return end_x; }
 int Shape::GetStartY() { return start_y; }
 
 int Shape::GetEndY() { return end_y; }
-
-string Shape::GetShapeType() {
-  if (shapetype == ShapeType::line) {
-    return "line";
-  } else if (shapetype == ShapeType::rect) {
-    return "rect";
-  } else {
-    return "scribble";
-  }
-}

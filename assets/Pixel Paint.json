@@ -28,24 +28,30 @@
             },
             {
                "ID" : 3,
-               "NAME" : "Fill",
+               "NAME" : "Ellipse",
                "TYPE" : "Toggle",
                "VALUE" : false
             },
             {
                "ID" : 4,
-               "NAME" : "Clear",
+               "NAME" : "Fill",
                "TYPE" : "Toggle",
                "VALUE" : false
             },
             {
                "ID" : 5,
-               "NAME" : "Save",
+               "NAME" : "Clear",
                "TYPE" : "Toggle",
                "VALUE" : false
             },
             {
                "ID" : 6,
+               "NAME" : "Save",
+               "TYPE" : "Toggle",
+               "VALUE" : false
+            },
+            {
+               "ID" : 7,
                "NAME" : "Load",
                "TYPE" : "Toggle",
                "VALUE" : false
@@ -55,10 +61,10 @@
       },
       {
          "BLUE" : 0,
-         "GREEN" : 0,
+         "GREEN" : 0.41489399999999999,
          "ID" : 2,
          "NAME" : "Paint Color",
-         "RED" : 1,
+         "RED" : 0.34574500000000002,
          "TYPE" : "MultiSlider"
       }
    ],

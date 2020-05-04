@@ -24,6 +24,7 @@ enum class Tool {
   line,
   scribble,
   rect,
+  ellipse,
   fill,
   clear,
   save,
@@ -49,9 +50,11 @@ class MyApp : public cinder::app::App {
   float blue;
 
   Color background_color;
+  Color saved_background_color;
 
   Shape2d mShape;
   vector<Shape> shapes;
+  vector<Shape> saved_shapes;
 
   static Tool tool;
 
