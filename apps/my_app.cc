@@ -13,9 +13,7 @@ using namespace std;
 
 Tool MyApp::tool;
 
-MyApp::MyApp() {
-  background_color = Color(0, 0, 0);
-}
+MyApp::MyApp() { background_color = Color(0, 0, 0); }
 
 void MyApp::setup() {
   mUi = SuperCanvas::create("Pixel Paint");
@@ -32,6 +30,12 @@ void MyApp::update() {
 
   if (tool == Tool::save) {
     SaveData();
+    tool = Tool::line;
+    tool_radio->activate("Line");
+  }
+
+  if (tool == Tool::load) {
+    LoadData();
     tool = Tool::line;
     tool_radio->activate("Line");
   }
@@ -65,7 +69,8 @@ fs::path MyApp::getSaveLoadPath() {
 void MyApp::SetBackgroundColor() { background_color = Color(red, green, blue); }
 
 void MyApp::CreateButtons() {
-  vector<std::string> tools = {"Line", "Scribble", "Rect", "Fill", "Clear", "Save", "Load"};
+  vector<std::string> tools = {"Line",  "Scribble", "Rect", "Fill",
+                               "Clear", "Save",     "Load"};
   tool_radio = Radio::create("Tools", tools);
   tool_radio->setCallback(OnButtonPress);
   mUi->addSubViewDown(tool_radio, Alignment::LEFT);
@@ -117,21 +122,20 @@ void MyApp::OnButtonPress(string name, bool value) {
 }
 
 void MyApp::SaveData() {
- database db("shapesave.db");
+  database db("shapesave.db");
 
   try {
-    db <<
-       "create table if not exists shapes ("
-       "   _id integer primary key autoincrement not null,"
-       "   shapetype text,"
-       "   startx int,"
-       "   starty int,"
-       "   endx int,"
-       "   endy int,"
-       "   red real,"
-       "   green real,"
-       "   blue real"
-       ");";
+    db << "create table if not exists shapes ("
+          "   _id integer primary key autoincrement not null,"
+          "   shapetype text,"
+          "   startx int,"
+          "   starty int,"
+          "   endx int,"
+          "   endy int,"
+          "   red real,"
+          "   green real,"
+          "   blue real"
+          ");";
   } catch (std::exception e) {
     std::cout << "Error creating leaderboard";
   }
@@ -139,15 +143,34 @@ void MyApp::SaveData() {
   db << "DELETE FROM shapes";
 
   for (Shape shape : shapes) {
-    db << u"insert into shapes (shapetype,startx,starty,endx,endy,red,green,blue) values (?,?,?,?,?,?,?,?);" // utf16 query string
-       << shape.GetShapeType()
-       << shape.GetStartX()
-       << shape.GetStartY()
-       << shape.GetEndX()
-       << shape.GetEndY()
-       << shape.GetColor().r
-       << shape.GetColor().g
-       << shape.GetColor().b;
+    db << u"insert into shapes "
+          u"(shapetype,startx,starty,endx,endy,red,green,blue) values "
+          u"(?,?,?,?,?,?,?,?);"  // utf16 query string
+       << shape.GetShapeType() << shape.GetStartX() << shape.GetStartY()
+       << shape.GetEndX() << shape.GetEndY() << shape.GetColor().r
+       << shape.GetColor().g << shape.GetColor().b;
+  }
+}
+
+void MyApp::LoadData() {
+  Clear();
+  database db("shapesave.db");
+
+  for (auto &&row :
+       db << "select shapetype,startx,endx,starty,endy,red,green,blue from "
+             "shapes") {
+    string shapetype;
+    int startx;
+    int endx;
+    int starty;
+    int endy;
+    float red_color;
+    float green_color;
+    float blue_color;
+    row >> shapetype >> startx >> endx >> starty >> endy >> red_color >>
+        green_color >> blue_color;
+    shapes.push_back(Shape(shapetype, startx, starty, endx, endy, red_color,
+                           green_color, blue_color));
   }
 }
 
@@ -171,9 +194,7 @@ void MyApp::mouseDown(MouseEvent event) {
   }
 }
 
-void MyApp::mouseUp(MouseEvent event) {
-
-}
+void MyApp::mouseUp(MouseEvent event) {}
 
 void MyApp::mouseDrag(MouseEvent event) {
   current_mouseX = event.getX();

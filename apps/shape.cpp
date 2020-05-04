@@ -16,6 +16,23 @@ Shape::Shape(Color c, ShapeType st, const int& x, const int& y) {
   }
 }
 
+Shape::Shape(string shapetype_string, int startx, int starty, int endx,
+             int endy, float red, float green, float blue) {
+  color = Color(red, green, blue);
+  start_x = startx;
+  start_y = starty;
+  end_x = endx;
+  end_y = endy;
+
+  if (shapetype_string == "line") {
+    shapetype = ShapeType::line;
+  } else if (shapetype_string == "rect") {
+    shapetype = ShapeType::rect;
+  } else {
+    shapetype = ShapeType::scribble;
+  }
+}
+
 void Shape::Update(const int& current_x, const int& current_y) {
   end_x = current_x;
   end_y = current_y;
@@ -54,25 +71,15 @@ void Shape::UpdateWithoutClearing(const int& current_x, const int& current_y) {
   }
 }
 
-Color Shape::GetColor() {
-  return color;
-}
+Color Shape::GetColor() { return color; }
 
-int Shape::GetStartX() {
-  return start_x;
-}
+int Shape::GetStartX() { return start_x; }
 
-int Shape::GetEndX() {
-  return end_x;
-}
+int Shape::GetEndX() { return end_x; }
 
-int Shape::GetStartY() {
-  return start_y;
-}
+int Shape::GetStartY() { return start_y; }
 
-int Shape::GetEndY() {
-  return end_y;
-}
+int Shape::GetEndY() { return end_y; }
 
 string Shape::GetShapeType() {
   if (shapetype == ShapeType::line) {

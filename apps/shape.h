@@ -19,12 +19,14 @@ enum class ShapeType {
 };
 
 using namespace cinder;
-using std::vector;
 using std::string;
+using std::vector;
 
 class Shape {
  public:
   Shape(Color c, ShapeType st, const int& x, const int& y);
+  Shape(string shapetype_string, int startx, int starty, int endx, int endy,
+        float red, float green, float blue);
 
   /**
    * Updates the coordinates of the shape. Used when drawing
@@ -39,7 +41,8 @@ class Shape {
   void Display();
 
   /**
-   * FOR TESTING ONLY. Updates the shape coordinates, but does not call cinder::gl::clear
+   * FOR TESTING ONLY. Updates the shape coordinates, but does not call
+   * cinder::gl::clear
    * @param current_x the new X coordinate
    * @param current_y the new Y coordinate
    */
@@ -58,9 +61,9 @@ class Shape {
   int GetStartX();
 
   /**
- * Get the ending x coordinate
- * @return int, the ending x coordinate
- */
+   * Get the ending x coordinate
+   * @return int, the ending x coordinate
+   */
   int GetEndX();
 
   /**
@@ -81,7 +84,6 @@ class Shape {
    */
   string GetShapeType();
 
-
  private:
   Color color;
   ShapeType shapetype;
@@ -90,8 +92,6 @@ class Shape {
   int end_x;
   int end_y;
   Shape2d scribble;
-
-
 };
 
 #endif  // FINALPROJECT_SHAPE_H

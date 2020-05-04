@@ -88,7 +88,7 @@ class MyApp : public cinder::app::App {
   void SetBackgroundColor();
 
   void SaveData();
-  static void LoadData();
+  void LoadData();
 
  public:
   MyApp();

@@ -55,10 +55,10 @@
       },
       {
          "BLUE" : 0,
-         "GREEN" : 0.36702099999999999,
+         "GREEN" : 0,
          "ID" : 2,
          "NAME" : "Paint Color",
-         "RED" : 0.090425500000000006,
+         "RED" : 1,
          "TYPE" : "MultiSlider"
       }
    ],
