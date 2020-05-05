@@ -95,3 +95,4 @@ ShapeType based the the tool that is selected. Used this to delete repetitive
 code in mouseDown().
 4. Deleted the Clear() method since it was redundant, I only needed to call
 shapes.clear().
+5. Deleted the SQLite 3 and SQLite modern cpp libraries

@@ -4,14 +4,12 @@
 
 #ifndef FINALPROJECT_SHAPE_H
 #define FINALPROJECT_SHAPE_H
-#include <cinder/app/App.h>
-
-#include <string>
-#include <vector>
-
-#include "cinder/Shape2d.h"
-#include "cinder/gl/gl.h"
-#include "cinder/svg/svg.h"
+#include "../../../../../../../Library/Developer/CommandLineTools/usr/include/c++/v1/string"
+#include "../../../../../../../Library/Developer/CommandLineTools/usr/include/c++/v1/vector"
+#include "../../../include/cinder/Shape2d.h"
+#include "../../../include/cinder/app/App.h"
+#include "../../../include/cinder/gl/gl.h"
+#include "../../../include/cinder/svg/Svg.h"
 
 enum class ShapeType {
   line,

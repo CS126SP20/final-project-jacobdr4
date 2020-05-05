@@ -3,9 +3,10 @@
 #ifndef FINALPROJECT_APPS_MYAPP_H_
 #define FINALPROJECT_APPS_MYAPP_H_
 #include <UI.h>
-#include <iostream>
-#include <sqlite_modern_cpp.h>
 #include <cinder/app/App.h>
+
+#include <iostream>
+
 #include "cinder/Utilities.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
@@ -18,7 +19,6 @@ using namespace reza::ui;
 using namespace ci;
 using namespace ci::app;
 using namespace std;
-using namespace sqlite;
 
 enum class Tool {
   line,

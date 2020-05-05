@@ -2,8 +2,10 @@
 
 #define CATCH_CONFIG_MAIN
 
-#include <catch2/catch.hpp>
 #include <cinder/Rand.h>
+
+#include <catch2/catch.hpp>
+
 #include "../apps/shape.cpp"
 
 TEST_CASE("Get line coordinates", "[vector]") {
