@@ -55,16 +55,22 @@
                "NAME" : "Load",
                "TYPE" : "Toggle",
                "VALUE" : false
+            },
+            {
+               "ID" : 8,
+               "NAME" : "Undo",
+               "TYPE" : "Toggle",
+               "VALUE" : false
             }
          ],
          "TYPE" : "Radio"
       },
       {
-         "BLUE" : 0,
-         "GREEN" : 0.41489399999999999,
+         "BLUE" : 0.86170199999999997,
+         "GREEN" : 0.0106383,
          "ID" : 2,
          "NAME" : "Paint Color",
-         "RED" : 0.34574500000000002,
+         "RED" : 0.28723399999999999,
          "TYPE" : "MultiSlider"
       }
    ],

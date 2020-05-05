@@ -1,4 +1,4 @@
-#Cool Paint
+#Pixel Paint
 Author: Jacob Rubin
 
 For my final project, I will be making a canvas application,

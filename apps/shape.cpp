@@ -3,7 +3,8 @@
 //
 
 #include "shape.h"
-Shape::Shape(Color get_color, ShapeType get_shapetype, const int& startx, const int& starty) {
+Shape::Shape(const Color& get_color, const ShapeType& get_shapetype,
+             const int& startx, const int& starty) {
   color = get_color;
   shapetype = get_shapetype;
   start_x = startx;
@@ -45,7 +46,8 @@ void Shape::Display() {
     int center_y = (end_y + start_y) / 2;
     int radius_x = (abs(center_x - end_x));
     int radius_y = (abs(center_y - end_y));
-    cinder::gl::drawStrokedEllipse(vec2 (center_x, center_y), radius_x, radius_y);
+    cinder::gl::drawStrokedEllipse(vec2(center_x, center_y), radius_x,
+                                   radius_y);
   }
 
   if (shapetype == ShapeType::scribble) {
@@ -62,10 +64,6 @@ void Shape::UpdateWithoutClearing(const int& current_x, const int& current_y) {
   }
 }
 
-int Shape::GetStartX() { return start_x; }
-
 int Shape::GetEndX() { return end_x; }
-
-int Shape::GetStartY() { return start_y; }
 
 int Shape::GetEndY() { return end_y; }

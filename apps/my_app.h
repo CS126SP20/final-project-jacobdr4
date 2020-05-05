@@ -29,6 +29,7 @@ enum class Tool {
   clear,
   save,
   load,
+  undo,
 };
 
 namespace myapp {
@@ -37,7 +38,7 @@ class MyApp : public cinder::app::App {
  private:
   SuperCanvasRef mUi;
 
-  RadioRef tool_radio;
+  RadioRef radio;
 
   int start_mouseX;
   int start_mouseY;
@@ -52,11 +53,12 @@ class MyApp : public cinder::app::App {
   Color background_color;
   Color saved_background_color;
 
-  Shape2d mShape;
   vector<Shape> shapes;
   vector<Shape> saved_shapes;
 
   static Tool tool;
+
+  bool can_draw;
 
   /**
    * Creates the buttons and adds them to the canvas
@@ -81,17 +83,41 @@ class MyApp : public cinder::app::App {
   static void OnButtonPress(string name, bool value);
 
   /**
-   * Clears the drawing board
-   */
-  void Clear();
-
-  /**
    * Sets the color of the background to the color on the sliders
    */
   void SetBackgroundColor();
 
+  /**
+   * Saves the shape array and background color to saved_shapes and
+   * saved_background color respectivally
+   */
   void SaveData();
+
+  /**
+   * Imports the data from saved_shapes and
+   * saved_background to set the
+   */
   void LoadData();
+
+  /**
+   * Deletes the last element in the vector shapes, acting as an undo command in deleting the
+   * last shape drawn
+   */
+  void Undo();
+
+  /**
+   * Returns the corresponding ShapeType enum based on what tool is selected
+   * @return a ShapeType enum
+   */
+  ShapeType GetShapeTypeFromTool();
+
+  /**
+   * Detects if the mouse is in the drawing bounds, aka not in the UI part
+   * @param mousex the x coordinate of the mouse
+   * @param mousey the y coordinate of the mouse
+   * @return true if the mouse is outside the UI/in the drawing bounds, false if otherwise
+   */
+  bool MouseInBounds(const int& mousex, const int& mousey);
 
  public:
   MyApp();

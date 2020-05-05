@@ -70,3 +70,28 @@ libraries
 2. Added save and load buttons to UI, added save and load tools to
 the tool enum
 3. Created the sqlite database where each shape will be saved to
+
+#5/3/20
+1. Initially got the save and loading functionality working using SQLlite.
+Although it worked as intended for saving rectangles and lines, I realized
+it would require another library in order to save scribbles. I decided to not
+use SQL, and just use local variables that would hold saves as long as
+the user kept on running the project.
+2. Created two new instance variables, vector<Shape> saved_shapes
+and Color saved_background. Refactored save and load to use these two variables
+to store shapes and the background color.
+3. Added an Ellipse button to the UI, allowing the user to draw ellipses. 
+Refactored the shape class to draw ellipses and added the "Ellipse" enum to 
+tools.
+
+#5/4/20
+1. Added an undo button that deletes the last shape that was drawn. Functionality
+int the method Undo()
+2. Added bounds detection through a variable, can_draw, and the method
+MouseInBounds(). This is to prevent the mouse from drawing anything when
+it is in the UI area. It was necessary to do this for the undo button to work.
+3. Created the GetShapeTypeFromTool() method, which returns an enum
+ShapeType based the the tool that is selected. Used this to delete repetitive
+code in mouseDown().
+4. Deleted the Clear() method since it was redundant, I only needed to call
+shapes.clear().

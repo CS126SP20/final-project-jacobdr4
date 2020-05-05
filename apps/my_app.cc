@@ -16,13 +16,14 @@ Tool MyApp::tool;
 MyApp::MyApp() {
   background_color = Color(0, 0, 0);
   saved_background_color = Color(0, 0, 0);
+  can_draw = false;
 }
 
 void MyApp::setup() {
   mUi = SuperCanvas::create("Pixel Paint");
   CreateButtons();
   tool = Tool::line;
-  tool_radio->activate("Line");
+  radio->activate("Line");
   CreateColorSlider();
   mUi->autoSizeToFitSubviews();
   mUi->load(getSaveLoadPath());
@@ -34,19 +35,25 @@ void MyApp::update() {
   if (tool == Tool::save) {
     SaveData();
     tool = Tool::line;
-    tool_radio->activate("Line");
+    radio->activate("Line");
   }
 
   if (tool == Tool::load) {
     LoadData();
     tool = Tool::line;
-    tool_radio->activate("Line");
+    radio->activate("Line");
+  }
+
+  if (tool == Tool::undo) {
+    Undo();
+    tool = Tool::line;
+    radio->activate("Line");
   }
 }
 
 void MyApp::draw() {
   if (tool == Tool::clear) {
-    Clear();
+    shapes.clear();
   }
 
   if (tool == Tool::fill) {
@@ -72,11 +79,11 @@ fs::path MyApp::getSaveLoadPath() {
 void MyApp::SetBackgroundColor() { background_color = Color(red, green, blue); }
 
 void MyApp::CreateButtons() {
-  vector<std::string> tools = {"Line", "Scribble", "Rect", "Ellipse",
-                               "Fill", "Clear",    "Save", "Load"};
-  tool_radio = Radio::create("Tools", tools);
-  tool_radio->setCallback(OnButtonPress);
-  mUi->addSubViewDown(tool_radio, Alignment::LEFT);
+  vector<std::string> tools = {"Line",  "Scribble", "Rect", "Ellipse", "Fill",
+                               "Clear", "Save",     "Load", "Undo"};
+  radio = Radio::create("Tools", tools);
+  radio->setCallback(OnButtonPress);
+  mUi->addSubViewDown(radio, Alignment::LEFT);
 }
 
 void MyApp::CreateColorSlider() {
@@ -100,12 +107,6 @@ void MyApp::ColorSliderSettings() {
   color_slider->setColorFillHighlight(ColorA(red, green, blue));
 }
 
-void MyApp::Clear() {
-  mShape.clear();
-  shapes.clear();
-  cinder::gl::clear();
-}
-
 void MyApp::OnButtonPress(string name, bool value) {
   if (name == "Line" && value) {
     tool = Tool::line;
@@ -123,6 +124,8 @@ void MyApp::OnButtonPress(string name, bool value) {
     tool = Tool::save;
   } else if (name == "Load" && value) {
     tool = Tool::load;
+  } else if (name == "Undo" && value) {
+    tool = Tool::undo;
   }
 }
 
@@ -136,32 +139,44 @@ void MyApp::SaveData() {
 }
 
 void MyApp::LoadData() {
-  Clear();
+  shapes.clear();
   background_color = saved_background_color;
   shapes = saved_shapes;
+}
+
+void MyApp::Undo() {
+  if (shapes.size() >= 1) {
+    shapes.pop_back();
+  }
+}
+
+ShapeType MyApp::GetShapeTypeFromTool() {
+  if (tool == Tool::line) {
+    return ShapeType::line;
+  } else if (tool == Tool::scribble) {
+    return ShapeType::scribble;
+  } else if (tool == Tool::rect) {
+    return ShapeType::rect;
+  } else if (tool == Tool::ellipse) {
+    return ShapeType::ellipse;
+  } else {
+    return ShapeType::none;
+  }
+}
+
+bool MyApp::MouseInBounds(const int &mousex, const int &mousey) {
+  return mousex > mUi->getHeight() || mousey > mUi->getHeight();
 }
 
 void MyApp::mouseDown(MouseEvent event) {
   start_mouseX = event.getX();
   start_mouseY = event.getY();
+  ShapeType shapetype = GetShapeTypeFromTool();
+  can_draw = false;
 
-  if (tool == Tool::line) {
-    shapes.push_back(Shape(Color(red, green, blue), ShapeType::line,
-                           start_mouseX, start_mouseY));
-  }
-
-  if (tool == Tool::rect) {
-    shapes.push_back(Shape(Color(red, green, blue), ShapeType::rect,
-                           start_mouseX, start_mouseY));
-  }
-
-  if (tool == Tool::scribble) {
-    shapes.push_back(Shape(Color(red, green, blue), ShapeType::scribble,
-                           start_mouseX, start_mouseY));
-  }
-
-  if (tool == Tool::ellipse) {
-    shapes.push_back(Shape(Color(red, green, blue), ShapeType::ellipse,
+  if (MouseInBounds(start_mouseX, start_mouseY) && shapetype != ShapeType::none) {
+    can_draw = true;
+    shapes.push_back(Shape(Color(red, green, blue), shapetype,
                            start_mouseX, start_mouseY));
   }
 }
@@ -172,10 +187,12 @@ void MyApp::mouseDrag(MouseEvent event) {
   current_mouseX = event.getX();
   current_mouseY = event.getY();
 
-  if (tool != Tool::fill && tool != Tool::clear) {
+  if (can_draw && tool != Tool::fill && tool != Tool::clear) {
     shapes[shapes.size() - 1].Update(current_mouseX, current_mouseY);
   }
 }
 
-void MyApp::mouseMove(MouseEvent event) {}
+void MyApp::mouseMove(MouseEvent event) {
+  can_draw = true;
+}
 }  // namespace myapp
