@@ -4,9 +4,7 @@
 #define FINALPROJECT_APPS_MYAPP_H_
 #include <UI.h>
 #include <cinder/app/App.h>
-
 #include <iostream>
-
 #include "cinder/Utilities.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
@@ -124,13 +122,11 @@ class MyApp : public cinder::app::App {
   void setup() override;
   void update() override;
   void draw() override;
-  void keyDown(cinder::app::KeyEvent) override;
   void cleanup() override;
   fs::path getSaveLoadPath();
 
   void mouseDown(MouseEvent event) override;
   void mouseUp(MouseEvent event) override;
-  void mouseMove(MouseEvent event) override;
   void mouseDrag(MouseEvent event) override;
 };
 

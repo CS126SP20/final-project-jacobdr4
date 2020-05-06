@@ -1,7 +1,6 @@
-// Copyright (c) 2020 [Your Name]. All rights reserved.
+// Copyright (c) 2020 Jacob Rubin. All rights reserved.
 
 #include "my_app.h"
-
 #include <cinder/app/App.h>
 
 namespace myapp {
@@ -65,8 +64,6 @@ void MyApp::draw() {
     s.Display();
   }
 }
-
-void MyApp::keyDown(KeyEvent event) {}
 
 void MyApp::cleanup() { mUi->save(getSaveLoadPath()); }
 
@@ -181,7 +178,9 @@ void MyApp::mouseDown(MouseEvent event) {
   }
 }
 
-void MyApp::mouseUp(MouseEvent event) {}
+void MyApp::mouseUp(MouseEvent event) {
+  can_draw = true;
+}
 
 void MyApp::mouseDrag(MouseEvent event) {
   current_mouseX = event.getX();
@@ -190,9 +189,5 @@ void MyApp::mouseDrag(MouseEvent event) {
   if (can_draw && tool != Tool::fill && tool != Tool::clear) {
     shapes[shapes.size() - 1].Update(current_mouseX, current_mouseY);
   }
-}
-
-void MyApp::mouseMove(MouseEvent event) {
-  can_draw = true;
 }
 }  // namespace myapp

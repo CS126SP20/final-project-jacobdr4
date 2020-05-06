@@ -4,7 +4,7 @@
    "NAME" : "Pixel Paint",
    "SUBVIEWS" : [
       {
-         "ACTIVE" : "Scribble",
+         "ACTIVE" : "Line",
          "ID" : 1,
          "NAME" : "Tools",
          "SUBVIEWS" : [
@@ -12,13 +12,13 @@
                "ID" : 0,
                "NAME" : "Line",
                "TYPE" : "Toggle",
-               "VALUE" : false
+               "VALUE" : true
             },
             {
                "ID" : 1,
                "NAME" : "Scribble",
                "TYPE" : "Toggle",
-               "VALUE" : true
+               "VALUE" : false
             },
             {
                "ID" : 2,
@@ -66,11 +66,11 @@
          "TYPE" : "Radio"
       },
       {
-         "BLUE" : 0.0159574,
+         "BLUE" : 0.66489399999999999,
          "GREEN" : 0,
          "ID" : 2,
          "NAME" : "Paint Color",
-         "RED" : 1,
+         "RED" : 0,
          "TYPE" : "MultiSlider"
       }
    ],

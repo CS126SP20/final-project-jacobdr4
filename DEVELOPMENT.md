@@ -96,3 +96,6 @@ code in mouseDown().
 4. Deleted the Clear() method since it was redundant, I only needed to call
 shapes.clear().
 5. Deleted the SQLite 3 and SQLite modern cpp libraries
+
+#5/6/20
+1. Finalized some formatting to complete the project

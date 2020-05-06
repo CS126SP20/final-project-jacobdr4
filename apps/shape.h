@@ -4,8 +4,8 @@
 
 #ifndef FINALPROJECT_SHAPE_H
 #define FINALPROJECT_SHAPE_H
-#include "../../../../../../../Library/Developer/CommandLineTools/usr/include/c++/v1/string"
-#include "../../../../../../../Library/Developer/CommandLineTools/usr/include/c++/v1/vector"
+#include "string"
+#include "vector"
 #include "../../../include/cinder/Shape2d.h"
 #include "../../../include/cinder/app/App.h"
 #include "../../../include/cinder/gl/gl.h"
@@ -25,6 +25,13 @@ using std::vector;
 
 class Shape {
  public:
+  /**
+   * A single shape that the user can draw, and to be displayed on the screen
+   * @param get_color The color of the shape
+   * @param get_shapetype The type of shape, from the ShapeType enum
+   * @param startx The starting x coordinate of the shape
+   * @param starty The starting y coordinate of the shape
+   */
   Shape(const Color& get_color, const ShapeType& get_shapetype,
         const int& startx, const int& starty);
 
